@@ -94,7 +94,7 @@ namespace DesafioFundamentos.Models
             {
                 Console.WriteLine(veiculo);
             }
-            Console.WriteLine("Fim da lista de veículos.\nPressione qualquer tecla para continuar...");
+            Console.WriteLine("Fim da lista de veículos.");
         }
     }
 }
