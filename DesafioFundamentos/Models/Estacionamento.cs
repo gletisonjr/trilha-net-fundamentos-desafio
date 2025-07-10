@@ -1,3 +1,5 @@
+using System.Text.RegularExpressions;
+
 namespace DesafioFundamentos.Models
 {
     public class Estacionamento
@@ -12,11 +14,38 @@ namespace DesafioFundamentos.Models
             this.precoPorHora = precoPorHora;
         }
 
+        static bool ValidaPlacaAntiga(string placa)
+        {
+            // Ex: ABC1234
+            return Regex.IsMatch(placa, @"^[A-Z]{3}[0-9]{4}$", RegexOptions.IgnoreCase);
+        }
+
+        static bool ValidaPlacaMercosul(string placa)
+        {
+            // Ex: ABC1D23
+            return Regex.IsMatch(placa, @"^[A-Z]{3}[0-9][A-Z][0-9]{2}$", RegexOptions.IgnoreCase);
+        }
+
         public void AdicionarVeiculo()
         {
             // TODO: Pedir para o usuário digitar uma placa (ReadLine) e adicionar na lista "veiculos"
             // *IMPLEMENTE AQUI*
             Console.WriteLine("Digite a placa do veículo para estacionar:");
+            string placa = Console.ReadLine();
+
+            if (string.IsNullOrEmpty(placa) ||
+                (!ValidaPlacaAntiga(placa) && !ValidaPlacaMercosul(placa)))
+            {
+                Console.WriteLine("Placa inválida. Por favor, insira uma placa válida.");
+                return;
+            }
+            if (veiculos.Any(x => x.ToUpper() == placa.ToUpper()))
+            {
+                Console.WriteLine("Placa inválida ou veículo já está estacionado.");
+                return;
+            }
+            veiculos.Add(placa);
+            Console.WriteLine($"O veículo {placa} foi adicionado com sucesso!");
         }
 
         public void RemoverVeiculo()
@@ -36,7 +65,7 @@ namespace DesafioFundamentos.Models
                 // TODO: Realizar o seguinte cálculo: "precoInicial + precoPorHora * horas" para a variável valorTotal                
                 // *IMPLEMENTE AQUI*
                 int horas = 0;
-                decimal valorTotal = 0; 
+                decimal valorTotal = 0;
 
                 // TODO: Remover a placa digitada da lista de veículos
                 // *IMPLEMENTE AQUI*
